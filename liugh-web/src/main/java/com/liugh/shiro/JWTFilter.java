@@ -6,6 +6,7 @@ import com.liugh.entity.User;
 import com.liugh.service.IUserService;
 import com.liugh.util.ComUtil;
 import com.liugh.util.JWTUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -106,6 +107,12 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
                     && split[1].equals(httpServletRequest.getMethod())){
                 return true;
             }
+            if(StringUtils.countMatches(urlMethod, "{")>0 &&
+                    StringUtils.countMatches(urlMethod, "/") == StringUtils.countMatches(split[0], "/")){
+                if(isSameUrl(split[0],httpServletRequest.getRequestURI()) && split[1].equals(httpServletRequest.getMethod())){
+                    return true;
+                }
+            }
         }
         String authorization = httpServletRequest.getHeader("Authorization");
         if(ComUtil.isEmpty(authorization)){
@@ -113,6 +120,22 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
             return false;
         }
         return super.preHandle(request, response);
+    }
+
+    private boolean isSameUrl(String localUrl,String requestUrl){
+        String[] tempLocalUrls = localUrl.split("/");
+        String[] tempRequestUrls = requestUrl.split("/");
+        StringBuilder sbLocalUrl =new StringBuilder();
+        StringBuilder sbRequestUrl =new StringBuilder();
+        for (int i = 0; i < tempLocalUrls.length; i++) {
+            if(StringUtils.countMatches(tempLocalUrls[i], "{") > 0){
+                tempLocalUrls[i]="*";
+                tempRequestUrls[i]="*";
+            }
+            sbLocalUrl.append(tempLocalUrls[i]+"/");
+            sbRequestUrl.append(tempRequestUrls[i]+"/");
+        }
+        return sbLocalUrl.toString().trim().equals(sbRequestUrl.toString().trim());
     }
 
     /**
