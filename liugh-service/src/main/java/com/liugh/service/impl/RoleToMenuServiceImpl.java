@@ -22,7 +22,7 @@ import java.util.List;
 public class RoleToMenuServiceImpl extends ServiceImpl<RoleToMenuMapper, RoleToMenu> implements IRoleToMenuService {
 
     @Override
-    @Cacheable(value = "RoleToMenuServiceImpl:selectByRoleId", key = "'role_'.concat(#root.args[0])")
+    @Cacheable(value = "UserToRole",keyGenerator="wiselyKeyGenerator")
     public List<RoleToMenu> selectByRoleId(Integer roleId) {
         EntityWrapper<RoleToMenu> ew = new EntityWrapper<>();
         ew.where("role_id={0}", roleId);

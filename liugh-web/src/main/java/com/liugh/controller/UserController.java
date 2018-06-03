@@ -35,9 +35,10 @@ public class UserController {
         return new PublicResult<>(PublicResultConstant.SUCCESS, currentUser);
     }
 
-    @GetMapping("/user/{id}")
+
+    @RequestMapping("/user/{id}")
     @Pass
-    public PublicResult<Object> findCurrentUser(@PathVariable String id) throws Exception{
+    public PublicResult<Object> findUser(@PathVariable String id) throws Exception{
         return new PublicResult<>(PublicResultConstant.SUCCESS, id);
     }
 }

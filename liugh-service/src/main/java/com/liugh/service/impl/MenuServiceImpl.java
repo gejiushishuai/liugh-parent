@@ -26,7 +26,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
     private MenuMapper menuMapper;
 
     @Override
-    @Cacheable(value = "MenuServiceImpl:selectByIds", key = "'role_'.concat(#root.args[0])")
+    @Cacheable(value = "UserToRole",keyGenerator="wiselyKeyGenerator")
     public List<Menu> selectByIds(List<Integer> permissionIds) {
         EntityWrapper<Menu> ew = new EntityWrapper<>();
         ew.in("menu_id", permissionIds);
@@ -34,6 +34,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
     }
 
     @Override
+    @Cacheable(value = "UserToRole",keyGenerator="wiselyKeyGenerator")
     public List<Menu> findMenuByRoleId(Integer roleId, int status) {
         return menuMapper.findMenuByRoleId(roleId, status);
     }

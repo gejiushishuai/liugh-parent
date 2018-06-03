@@ -35,7 +35,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     private ICitiesService citiesService;
 
     @Override
-    @Cacheable(value = "userName", key = "'user_'.concat(#root.args[0])")
+    @Cacheable(value = "UserToRole",keyGenerator="wiselyKeyGenerator")
     public User getUserByUserName(String username) {
         System.out.println("执行getUserByUserName方法了.....");
         EntityWrapper<User> ew = new EntityWrapper<>();

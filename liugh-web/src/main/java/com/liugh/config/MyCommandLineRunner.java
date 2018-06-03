@@ -91,7 +91,7 @@ public class MyCommandLineRunner implements CommandLineRunner {
 		for (String url:methodUrl) {
             sb.append(url);
         }
-		return sb.toString().replaceAll("/+", "/")+":"+requestName;
+		return sb.toString().replaceAll("/+", "/")+":--:"+requestName;
 	}
 
 	private void doScanner(String packageName) {

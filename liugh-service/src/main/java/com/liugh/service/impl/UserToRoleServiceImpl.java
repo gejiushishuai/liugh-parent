@@ -23,7 +23,7 @@ import java.util.List;
 public class UserToRoleServiceImpl extends ServiceImpl<UserToRoleMapper, UserToRole> implements IUserToRoleService {
 
     @Override
-    @Cacheable(value = "UserToRoleServiceImpl:selectByUserId", key = "'user_'.concat(#root.args[0])")
+    @Cacheable(value = "UserToRole",keyGenerator="wiselyKeyGenerator")
     public UserToRole selectByUserId(Integer userId) {
         EntityWrapper<UserToRole> ew = new EntityWrapper<>();
         ew.where("user_id={0}", userId);

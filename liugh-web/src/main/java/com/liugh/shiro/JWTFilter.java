@@ -102,14 +102,15 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
             return false;
         }
         for (String urlMethod:Constant.METHOD_URL_SET) {
-            String[] split = urlMethod.split(":");
+            String[] split = urlMethod.split(":--:");
             if(split[0].equals(httpServletRequest.getRequestURI())
-                    && split[1].equals(httpServletRequest.getMethod())){
+                    && (split[1].equals(httpServletRequest.getMethod()) ||  split[1].equals("RequestMapping"))){
                 return true;
             }
             if(StringUtils.countMatches(urlMethod, "{")>0 &&
-                    StringUtils.countMatches(urlMethod, "/") == StringUtils.countMatches(split[0], "/")){
-                if(isSameUrl(split[0],httpServletRequest.getRequestURI()) && split[1].equals(httpServletRequest.getMethod())){
+                    StringUtils.countMatches(urlMethod, "/") == StringUtils.countMatches(split[0], "/")
+                    && (split[1].equals(httpServletRequest.getMethod()) ||  split[1].equals("RequestMapping"))){
+                if(isSameUrl(split[0],httpServletRequest.getRequestURI())){
                     return true;
                 }
             }
