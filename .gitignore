@@ -4,3 +4,4 @@
 /liugh-service/target/*
 /.idea
 *.iml
+/logs
